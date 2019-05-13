@@ -71,7 +71,7 @@ function buyProduct() {
         filter: Number
       },
       {
-        name: "buy",
+        name: "quantity",
         type: "input",
         message: "How many would you like to buy?",
         filter: Number
@@ -80,47 +80,48 @@ function buyProduct() {
     .then(function(input) {
       var item = input.item_id;
       var quantity = input.quantity;
+
+      // query the database for all items being sold & prompt user for product & quantity to buy
+      var queryDb = "SELECT * FROM products WHERE ?";
+      connection.query(queryDb, { item_id: item }, function(err, results) {
+        if (err) throw err;
+        // Check if valid item ID was entered
+        if (results.length === 0) {
+          console.log("Invalid Item ID. Please enter a valid Item ID.");
+          listItems();
+        } else {
+          var productData = results[0];
+          // Check if product is in stock
+          if (quantity <= productData.stock_quantity) {
+            console.log("We have that in stock! Placing your order.");
+
+            //Update stock quantity in database
+            var UpdateQuery =
+              "UPDATE products SET stock_quantity = " +
+              (productData.stock_quantity - quantity) +
+              " WHERE item_id = " +
+              item;
+            connection.query(UpdateQuery, function(err, results) {
+              if (err) throw err;
+              console.log(
+                "Order complete. Your total is $" + productData.price * quantity
+              );
+              console.log("Thanks for shopping at Bamazon!");
+              console.log(
+                "\n---------------------------------------------------------------------\n"
+              );
+              connection.end();
+            });
+          } else {
+            console.log(
+              "Sorry, there is not enough of that product in stock. Please try again."
+            );
+            console.log(
+              "\n---------------------------------------------------------------------\n"
+            );
+          }
+          listItems();
+        }
+      });
     });
-
-  // query the database for all items being sold & prompt user for product & quantity to buy
-  connection.query("SELECT * FROM products WHERE ?", function(err, results) {
-    if (err) throw err;
-    // Check if valid item ID was entered
-    if (data.length === 0) {
-      console.log("Invalid Item ID. Please enter a valid Item ID.");
-      listItems();
-    } else {
-      var productData = results[0];
-      // Check if product is in stock
-      if (quantity <= productData.stock_quantity) {
-        console.log("We have that in stock! Placing your order.");
-
-        //Update stock quantity in database
-        var UpdateQuery =
-          "UPDATE products SET stock_quantity = " +
-          (productData.stock_quantity - quantity) +
-          " WHERE item_id = " +
-          item;
-        connection.query(UpdateQuery, function(err, results) {
-          if (err) throw err;
-          console.log(
-            "Order complete. Your total is $" + productData.price * quantity
-          );
-          console.log("Thanks for shopping at Bamazon!");
-          console.log(
-            "\n---------------------------------------------------------------------\n"
-          );
-          connection.end();
-        });
-      } else {
-        console.log(
-          "Sorry, there is not enough of that product in stock. Please try again."
-        );
-        console.log(
-          "\n---------------------------------------------------------------------\n"
-        );
-      }
-      listItems();
-    }
-  });
 }
