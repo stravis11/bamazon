@@ -26,11 +26,11 @@ var connection = mysql.createConnection({
 connection.connect(function(err) {
   if (err) throw err;
   // run the start function after the connection is made to prompt the user
-  start();
+  listItems();
 });
 
 // query the database & display all items in a table
-function start() {
+function listItems() {
   connection.query("SELECT * FROM products", function(err, results) {
     if (err) throw err;
 
@@ -51,10 +51,76 @@ function start() {
         results[i].product_name,
         results[i].department_name,
         "$" + results[i].price,
-        "$" + results[i].stock_quantity
+        results[i].stock_quantity
       ]);
     }
     console.log(table.toString());
   });
-  connection.end();
+
+  buyProduct();
+}
+
+function buyProduct() {
+  // prompt the user for which they'd like to buy
+  inquirer
+    .prompt([
+      {
+        name: "item_id",
+        type: "input",
+        message: "Enter the ID of the product you would like to buy",
+        filter: Number
+      },
+      {
+        name: "buy",
+        type: "input",
+        message: "How many would you like to buy?",
+        filter: Number
+      }
+    ])
+    .then(function(input) {
+      var item = input.item_id;
+      var quantity = input.quantity;
+    });
+
+  // query the database for all items being sold & prompt user for product & quantity to buy
+  connection.query("SELECT * FROM products WHERE ?", function(err, results) {
+    if (err) throw err;
+    // Check if valid item ID was entered
+    if (data.length === 0) {
+      console.log("Invalid Item ID. Please enter a valid Item ID.");
+      listItems();
+    } else {
+      var productData = results[0];
+      // Check if product is in stock
+      if (quantity <= productData.stock_quantity) {
+        console.log("We have that in stock! Placing your order.");
+
+        //Update stock quantity in database
+        var UpdateQuery =
+          "UPDATE products SET stock_quantity = " +
+          (productData.stock_quantity - quantity) +
+          " WHERE item_id = " +
+          item;
+        connection.query(UpdateQuery, function(err, results) {
+          if (err) throw err;
+          console.log(
+            "Order complete. Your total is $" + productData.price * quantity
+          );
+          console.log("Thanks for shopping at Bamazon!");
+          console.log(
+            "\n---------------------------------------------------------------------\n"
+          );
+          connection.end();
+        });
+      } else {
+        console.log(
+          "Sorry, there is not enough of that product in stock. Please try again."
+        );
+        console.log(
+          "\n---------------------------------------------------------------------\n"
+        );
+      }
+      listItems();
+    }
+  });
 }

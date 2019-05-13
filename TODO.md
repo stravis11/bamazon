@@ -6,7 +6,7 @@
   - [x] Create products table
   - [x] Populate database w/ 10 different products
 - [ ] Create node app bamazonCustomer.js
-  - [ ] App first displays all items available for sale
+  - [x] App first displays all items available for sale
   - [ ] App prompts user w/ two messages:
     - [ ] ID of product they would like to buy
     - [ ] How many units of product they would like to buy
