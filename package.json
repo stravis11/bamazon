@@ -1,0 +1,30 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "CLI app using node and MySQL",
+  "main": "bamazonCustomer.js",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "inquirer": "^6.3.1",
+    "mysql": "^2.17.1",
+    "cli-table3": "^0.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stravis11/bamazon.git"
+  },
+  "keywords": [
+    "node",
+    "mysql"
+  ],
+  "author": "Steve Travis",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stravis11/bamazon/issues"
+  },
+  "homepage": "https://github.com/stravis11/bamazon#readme"
+}
