@@ -57,7 +57,7 @@ function listItems() {
     console.log(table.toString());
   });
 
-  buyProduct();
+  setTimeout(buyProduct, 500);
 }
 
 function buyProduct() {
@@ -67,14 +67,20 @@ function buyProduct() {
       {
         name: "item_id",
         type: "input",
-        message: "Enter the ID of the product you would like to buy",
-        filter: Number
+        message: "Enter the ID of the product you would like to buy: ",
+        validate: function(value) {
+          var valid = !isNaN(parseFloat(value));
+          return valid || "Please enter a number";
+        }
       },
       {
         name: "quantity",
         type: "input",
         message: "How many would you like to buy?",
-        filter: Number
+        validate: function(value) {
+          var valid = !isNaN(parseFloat(value));
+          return valid || "Please enter a number";
+        }
       }
     ])
     .then(function(input) {

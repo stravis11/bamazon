@@ -5,16 +5,16 @@
 - [x] Create bamazon database
   - [x] Create products table
   - [x] Populate database w/ 10 different products
-- [ ] Create node app bamazonCustomer.js
+- [x] Create node app bamazonCustomer.js
   - [x] App first displays all items available for sale
-  - [ ] App prompts user w/ two messages:
-    - [ ] ID of product they would like to buy
-    - [ ] How many units of product they would like to buy
-  - [ ] App checks if store has enough of product to meet request
-    - [ ] If not enough, Insufficient quantity!, then prevent order from going through
-    - [ ] If enough to fullfill order
-      - [ ] Update SQL database to reflect remaining quantity
-      - [ ] Show customer the total cost of their purchase
+  - [x] App prompts user w/ two messages:
+    - [x] ID of product they would like to buy
+    - [x] How many units of product they would like to buy
+  - [x] App checks if store has enough of product to meet request
+    - [x] If not enough, Insufficient quantity!, then prevent order from going through
+    - [x] If enough to fullfill order
+      - [x] Update SQL database to reflect remaining quantity
+      - [x] Show customer the total cost of their purchase
 
 ## Challenge 2 - Manager View
 
