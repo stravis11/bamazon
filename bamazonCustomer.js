@@ -9,31 +9,32 @@ var {
 
 // create the connection information for the sql database
 var connection = mysql.createConnection({
+  // hostname, stored in .env
   host: DB_HOST,
 
   // Your port; if not 3306
   port: 3306,
 
-  // Your username
+  // Your username, stored in .env
   user: DB_USER,
 
-  // Your password
+  // Your password, stored in .env
   password: DB_PASSWORD,
   database: "bamazon"
 });
 
-// connect to the mysql server and sql database
+// connect to the mysql server and database
 connection.connect(function(err) {
   if (err) throw err;
-  // run the start function after the connection is made to prompt the user
+  // run the listItems function after the connection is made
   listItems();
 });
 
-// query the database & display all items in a table
+// query the database & display all items in the table
 function listItems() {
   connection.query("SELECT * FROM products", function(err, results) {
     if (err) throw err;
-
+    // build and display table of products
     var table = new Table({
       style: { head: ["cyan"] },
       head: [
@@ -61,7 +62,7 @@ function listItems() {
 }
 
 function buyProduct() {
-  // prompt the user for which they'd like to buy
+  // prompt the user for which item to buy and quantity
   inquirer
     .prompt([
       {
@@ -87,7 +88,7 @@ function buyProduct() {
       var item = input.item_id;
       var quantity = input.quantity;
 
-      // query the database for all items being sold & prompt user for product & quantity to buy
+      // query the database for all items being sold
       var queryDb = "SELECT * FROM products WHERE ?";
       connection.query(queryDb, { item_id: item }, function(err, results) {
         if (err) throw err;
