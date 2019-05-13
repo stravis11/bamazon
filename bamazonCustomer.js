@@ -111,16 +111,14 @@ function buyProduct() {
                 "\n---------------------------------------------------------------------\n"
               );
               connection.end();
+              return;
             });
           } else {
             console.log(
               "Sorry, there is not enough of that product in stock. Please try again."
             );
-            console.log(
-              "\n---------------------------------------------------------------------\n"
-            );
+            listItems();
           }
-          listItems();
         }
       });
     });
