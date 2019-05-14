@@ -1,14 +1,14 @@
 require("dotenv").config();
 
-var mysql = require("mysql");
-var inquirer = require("inquirer");
-var Table = require("cli-table3");
-var {
+const mysql = require("mysql");
+const inquirer = require("inquirer");
+const Table = require("cli-table3");
+const {
   env: { DB_HOST, DB_USER, DB_PASSWORD }
 } = process;
 
 // create the connection information for the sql database
-var connection = mysql.createConnection({
+const db = mysql.createConnection({
   // hostname, stored in .env
   host: DB_HOST,
 
