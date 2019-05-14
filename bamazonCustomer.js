@@ -8,7 +8,7 @@ var {
 } = process;
 
 // create the connection information for the sql database
-var connection = mysql.createConnection({
+var db = mysql.createConnection({
   // hostname, stored in .env
   host: DB_HOST,
 
@@ -24,7 +24,7 @@ var connection = mysql.createConnection({
 });
 
 // connect to the mysql server and database
-connection.connect(function(err) {
+db.connect(err => {
   if (err) throw err;
   // run the listItems function after the connection is made
   listItems();
@@ -32,7 +32,7 @@ connection.connect(function(err) {
 
 // query the database & display all items in the table
 function listItems() {
-  connection.query("SELECT * FROM products", function(err, results) {
+  db.query("SELECT * FROM products", (err, results) => {
     if (err) throw err;
     // build and display table of products
     var table = new Table({
@@ -90,7 +90,7 @@ function buyProduct() {
 
       // query the database for all items being sold
       var queryDb = "SELECT * FROM products WHERE ?";
-      connection.query(queryDb, { item_id: item }, function(err, results) {
+      db.query(queryDb, { item_id: item }, (err, results) => {
         if (err) throw err;
         // Check if valid item ID was entered
         if (results.length === 0) {
@@ -108,7 +108,7 @@ function buyProduct() {
               (productData.stock_quantity - quantity) +
               " WHERE item_id = " +
               item;
-            connection.query(UpdateQuery, function(err, results) {
+            db.query(UpdateQuery, (err, results) => {
               if (err) throw err;
               console.log(
                 "Order complete. Your total is $" + productData.price * quantity
@@ -117,7 +117,7 @@ function buyProduct() {
               console.log(
                 "\n---------------------------------------------------------------------\n"
               );
-              connection.end();
+              db.end();
               return;
             });
           } else {
