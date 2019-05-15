@@ -26,10 +26,10 @@ const db = mysql.createConnection({
 // connect to the mysql server and database
 db.connect(err => {
   if (err) throw err;
-  // run the listItems function after the connection is made
+  // run the start function after the connection is made
   start();
 });
-
+// funtion displays menu of choices
 function start() {
   inquirer
     .prompt([
@@ -38,32 +38,38 @@ function start() {
         type: "list",
         message: "Please select an option",
         choices: [
-          { name: "View Products for Sale", value: "viewprod" },
-          { name: "View Low Inventory", value: "viewlow" },
-          { name: "Add to Inventory", value: "addinv" },
-          { name: "Add New Product", value: "addprod" },
-          { name: "Exit", value: "end" }
-        ]
+          "View Inventory",
+          "View Low Inventory",
+          "Add to Inventory",
+          "Add New Product",
+          "Exit"
+        ],
+        name: "choice"
       }
     ])
-
     .then(function(answer) {
-      // based on their answer, either call the bid or the post functions
-      if (answer.menuChoice === "viewprod") {
-        viewProd();
-      } else if (answer.menuChoice === "viewlow") {
-        viewLowInv();
-      } else if (answer.menuChoice === "addinv") {
-        addInv();
-      } else if (answer.menuChoice === "addprod") {
-        addProd();
-      } else {
-        db.end();
+      // based on selection, call the appropriate function
+      switch (answer.choice) {
+        case "View Inventory":
+          viewInv();
+          break;
+        case "View Low Inventory":
+          viewLowInv();
+          break;
+        case "Add to Inventory":
+          addInv();
+          break;
+        case "Add New Product":
+          addProd();
+          break;
+        case "Exit":
+          db.end();
       }
     });
 }
 
-function viewProd() {
+// function displays all items in inventory
+function viewInv() {
   db.query("SELECT * FROM products", (err, results) => {
     if (err) throw err;
     // build and display table of products
@@ -93,6 +99,7 @@ function viewProd() {
   setTimeout(start, 500);
 }
 
+// function displays only products with quantity less than 5
 function viewLowInv() {
   db.query(
     "SELECT * FROM products WHERE stock_quantity < 5",
@@ -126,10 +133,12 @@ function viewLowInv() {
   setTimeout(start, 500);
 }
 
+// function increases quantity of an item
 function addInv() {
   console.log("Add inventory");
 }
 
+// function adds a new product
 function addProd() {
   console.log("Add product");
 }

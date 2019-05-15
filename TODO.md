@@ -18,10 +18,10 @@
 
 ## Challenge 2 - Manager View
 
-- [ ] Create node app bamazonManager.js
-  - [ ] Create list of menu options
-    - [ ] View Product for Sale: List every available item
-    - [ ] View low inventory: List all items with an inventory count lower than five
+- [x] Create node app bamazonManager.js
+  - [x] Create list of menu options
+    - [x] View Product for Sale: List every available item
+    - [x] View low inventory: List all items with an inventory count lower than five
     - [ ] Add to Inventory: add more of any item currently in the store
     - [ ] Add New Prodcut: Add a compeltely new prodcut to the store
 
