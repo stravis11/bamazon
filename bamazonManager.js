@@ -94,7 +94,36 @@ function viewProd() {
 }
 
 function viewLowInv() {
-  console.log("View low inventory");
+  db.query(
+    "SELECT * FROM products WHERE stock_quantity < 5",
+    (err, results) => {
+      if (err) throw err;
+      // build and display table of products
+      var table = new Table({
+        style: { head: ["cyan"] },
+        head: [
+          "Item ID",
+          "Product Name",
+          "Department Name",
+          "Price",
+          "# in Stock"
+        ],
+        colWidths: [10, 20, 20, 15, 15]
+      });
+      for (var i = 0; i < results.length; i++) {
+        table.push([
+          results[i].item_id,
+          results[i].product_name,
+          results[i].department_name,
+          "$" + results[i].price,
+          results[i].stock_quantity
+        ]);
+      }
+      console.log(table.toString());
+    }
+  );
+
+  setTimeout(start, 500);
 }
 
 function addInv() {
