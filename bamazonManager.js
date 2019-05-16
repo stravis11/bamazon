@@ -163,12 +163,14 @@ function addInv() {
         (err, results) => {
           if (err) throw err;
           let product = results[0];
+          let currentQuantity = parseInt(product.stock_quantity);
+          let restockQuantity = parseInt(item.quantity);
           console.log(`You selected ${product.product_name}`);
-          if (product.stock_quantity <= 0) {
+          if (restockQuantity <= 0) {
             console.log("Insufficient quantity");
             start();
           } else {
-            let newQuantity = product.stock_quantity + item.quantity;
+            let newQuantity = restockQuantity + currentQuantity;
             db.query(
               "UPDATE products SET ? WHERE ?",
               [{ stock_quantity: newQuantity }, { item_id: item.id }],
