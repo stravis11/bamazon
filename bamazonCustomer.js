@@ -137,9 +137,6 @@ function restart() {
         listItems();
       } else {
         console.log("Thanks for shopping at Bamazon!");
-        console.log(
-          "\n---------------------------------------------------------------------\n"
-        );
         db.end();
         return;
       }
