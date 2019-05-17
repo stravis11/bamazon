@@ -42,7 +42,7 @@
 
 ## Housekeeping
 
-- [ ] Create README.md. Include videos/gifs of working app.
-- [ ] Add bamazon to portfolio
-- [ ] Update resume project links
-- [ ] Submit portfolio & github links
+- [x] Create README.md. Include videos/gifs of working app.
+- [x] Add bamazon to portfolio
+- [x] Update resume project links
+- [x] Submit portfolio & github links
