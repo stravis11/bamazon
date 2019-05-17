@@ -22,7 +22,7 @@
   - [x] Create list of menu options
     - [x] View Product for Sale: List every available item
     - [x] View low inventory: List all items with an inventory count lower than five
-    - [ ] Add to Inventory: add more of any item currently in the store
+    - [x] Add to Inventory: add more of any item currently in the store
     - [ ] Add New Prodcut: Add a compeltely new prodcut to the store
 
 ## Challenge 3 - Supervisor View

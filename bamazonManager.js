@@ -193,5 +193,54 @@ function addInv() {
 
 // function adds a new product
 function addProd() {
-  console.log("Add product");
+  // prompt for product to add to inventory
+  console.log("Adding item to inventory...");
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Name of new item to add:",
+        name: "name"
+      },
+      {
+        type: "input",
+        message: "Department of new item:",
+        name: "department"
+      },
+      {
+        type: "input",
+        message: "Price of new item:",
+        name: "price",
+        validate: function(value) {
+          var valid = !isNaN(parseFloat(value));
+          return valid || "Please enter a valid price:";
+        }
+      },
+      {
+        type: "input",
+        message: "Quantity of new item:",
+        name: "quantity",
+        validate: function(value) {
+          var valid = !isNaN(parseFloat(value));
+          return valid || "Please enter a valid quantity:";
+        }
+      }
+    ])
+    // Add new item to database
+    .then(function(item) {
+      db.query(
+        "INSERT INTO products SET ?",
+        {
+          product_name: item.name,
+          department_name: item.department,
+          price: item.price,
+          stock_quantity: item.quantity
+        },
+        function(err) {
+          if (err) throw err;
+          console.log("New item added");
+          start();
+        }
+      );
+    });
 }
