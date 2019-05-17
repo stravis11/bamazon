@@ -108,25 +108,40 @@ function buyProduct() {
               (productData.stock_quantity - quantity) +
               " WHERE item_id = " +
               item;
-            db.query(UpdateQuery, (err, results) => {
+            db.query(UpdateQuery, err => {
               if (err) throw err;
               console.log(
                 "Order complete. Your total is $" + productData.price * quantity
               );
-              console.log("Thanks for shopping at Bamazon!");
-              console.log(
-                "\n---------------------------------------------------------------------\n"
-              );
-              db.end();
-              return;
             });
-          } else {
-            console.log(
-              "Sorry, there is not enough of that product in stock. Please try again."
-            );
-            listItems();
           }
+
+          setTimeout(restart, 500);
         }
       });
+    });
+}
+
+// function to prompt to continue shopping
+function restart() {
+  inquirer
+    .prompt([
+      {
+        type: "confirm",
+        message: "Continue shopping?",
+        name: "continue"
+      }
+    ])
+    .then(function(answer) {
+      if (answer.continue) {
+        listItems();
+      } else {
+        console.log("Thanks for shopping at Bamazon!");
+        console.log(
+          "\n---------------------------------------------------------------------\n"
+        );
+        db.end();
+        return;
+      }
     });
 }
